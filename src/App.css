@@ -22,12 +22,206 @@
 .App-link {
   color: #61dafb;
 }
+a {
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+}
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+#login {  
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color:#CFB53B
+}
+#login #mainLogin {
+  width: 300px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+#mainLogin label{
+  color: rgba(228, 222, 199, 0.733);
+  font-size: 25px;
+}
+#mainLogin label a {
+  transition: 0.5s;
+  font-size: 35px;
+  color: #F7ECE1;
+}
+#mainLogin label a:hover {
+  color: rgba(255, 255, 255, 0.466);
+}
+
+
+
+#popup {
+  display: flex;
+  position: absolute;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color:rgba(80, 74, 49, 0.541);
+  animation-name: popuper;
+  animation-duration: 1s;
+}
+@keyframes popuper {
+  0% {background-color: rgba(255, 0, 0, 0)}
+  100% {background-color:rgba(80, 74, 49, 0.541);}
+}
+
+
+#mainpopup{
+  padding: 7px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  opacity: 1;
+  /* visibility: visible; */
+  color: #CE2F2F;
+  width: 400px;
+  background-color: rgb(245, 243, 243);
+  animation-name:mainpopuper;
+  animation-duration: 1s;
+}
+@keyframes mainpopuper {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
+
+
+.silo {
+  width: 100%;
+  height: 100%;
+  outline: 3px solid rgba(117, 85, 85, 0.226);
+  padding: 25px 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#popup #closer {
+  align-self :flex-end;
+  outline: 0;
+  cursor: pointer;
+  position: absolute;
+  color: rgb(175, 174, 174);
+  background-color: rgba(255, 255, 255, 0);
+  border:0;
+  padding: 2px;
+  animation-name:mainpopuper;
+  animation-duration: 1s;
+} 
+#popup #closer:hover{  
+  color: rgb(168, 83, 83);
+}
+.silo input {
+  color: rgba(199, 62, 62, 0.699);
+  font-size: 14px;
+  outline: 0;
+  margin: 0;
+  padding: 4px;
+  border: 1px solid rgb(206, 204, 204);
+}
+.silo h1 {
+  margin: 0;
+  margin-bottom: 18px;
+}
+.silo #subb {
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 1s;
+  margin-top: 5px;
+  color: #CE2F2F;
+  background-color: rgb(245, 243, 243);
+  border: 2px solid rgb(206, 204, 204);
+  padding: 10px
+}
+.silo #subb:hover {
+  color: #ffffff;
+  background-color: rgb(206, 204, 204);  
+  border: 2px solid rgba(160, 141, 141, 0.534);
+}
+
+.silo #subb.noActive{
+  cursor: auto;
+  opacity: 0.4;
+}
+.silo #subb.noActive:hover {  
+  color: #CE2F2F;
+  background-color: rgb(245, 243, 243);
+  border: 2px solid rgb(206, 204, 204);
+}
+.mainsilo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.silo .silorow {
+  margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 2px;
+  display: flex;
+  width: 80%;
+}
+.silo .silorow.errorRow input{
+  border-right: 5px solid rgb(212, 55, 55);
+}
+
+#userPage {
+  background-color:rgb(33, 68, 85);
+  color: rgba(219, 30, 46, 0.795);
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#userPage #header{
+  box-sizing: border-box;
+  padding: 4px 10px;
+  background-color: rgba(88, 111, 124, 0.39);
+  position: fixed;
+  top: 0;
+  width: 100%;
+  text-align: right;
+
+}
+#userPage #header label {
+  color:rgba(255, 255, 255, 0.685);
+  margin-right: 10px;
+}
+#userPage #header button {
+  cursor: pointer;
+  outline: 0;
+  border: 0;
+  padding: 2px 8px;
+  color: rgb(172, 172, 172);
+  background-color: rgba(123, 150, 163, 0.411);
+  transition: all 1s;
+}
+#userPage #header button:hover {
+  color: rgb(211, 211, 211);
+  background-color: rgba(123, 150, 163, 0.486);
+
+}
+#userPage h1 {
+  font-size: 70px;
+}
+#userPage h1 span {
+  font-size: 85px;
+  color: #DB1E2E;
+
 }
