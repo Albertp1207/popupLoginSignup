@@ -1,5 +1,7 @@
 import React, {Component} from "react";
 import { Redirect } from 'react-router';
+import Req from "./Req";
+
 class LoginPage extends Component {
     state = {
         userName:null,
@@ -9,7 +11,9 @@ class LoginPage extends Component {
             password:""
         },
         isLoginWork:false,
-        goUserPage:false
+        goUserPage:false,
+        isLoading:false,
+        hint:null
 
     }
     changeValues = (ev)=>{
@@ -50,14 +54,32 @@ class LoginPage extends Component {
     }
     login = ()=>{
         if(!this.state.isLoginWork) return;
+        let {userName,password} = this.state;
         this.setState({
-            goUserPage:true
+            isLoading:true
         })
+        Req("https://reqres.in/api/login","POST",{email:userName,password})
+            .then(data=>{
+                if(!!data.error) {
+                    this.setState({
+                        isLoading:false,
+                        hint:data.error
+                    })
+                }else {                    
+                    this.setState({
+                        goUserPage:true,
+                        isLoading:false
+                    })
+                }
+            })
     }
     render(){
         // console.log(this.props.match)
-        let {noValids,isLoginWork} = this.state;
+        let {noValids,isLoginWork,isLoading,hint} = this.state;
 
+        if(isLoading) {
+            hint = "Loading ..."
+        }
         console.log(isLoginWork)
         let uNT = noValids.userName.length >0;
         let pT = noValids.password.length >0;
@@ -79,6 +101,7 @@ class LoginPage extends Component {
                     </div>
                 </div>
                 <button className={!isLoginWork?" noActive":null } onClick={this.login} id="subb">Log In</button>
+                <label id="hintOfLogin">{hint}</label>
             </div>
         )
     }

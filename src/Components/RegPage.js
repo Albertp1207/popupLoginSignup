@@ -1,9 +1,7 @@
 import React, {Component} from "react";
 import {BrowserRouter as Router,Redirect} from "react-router-dom";
-
-const emailRegex = RegExp(
-    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-);
+import Req from "./Req"
+const emailRegex = RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
   
 class RegPage extends Component {
     state = {
@@ -18,7 +16,9 @@ class RegPage extends Component {
             fullName:""
         },
         isRegWork:false,
-        goUserPage:false
+        goUserPage:false,
+        hint:null,
+        isLoading:false
     }
 
     changeValues = (ev)=>{
@@ -62,15 +62,34 @@ class RegPage extends Component {
         })
     }
     regist = ()=>{
+
         if(!this.state.isRegWork) return;
+        let {email,password} = this.state;
         this.setState({
-            goUserPage:true
+            isLoading:true
         })
+        Req("https://reqres.in/api/register","POST",{email,password})
+            .then(data=>{
+                if(!!data.error) {
+                    this.setState({
+                        isLoading:false,
+                        hint:data.error
+                    })
+                }else {                    
+                    this.setState({
+                        goUserPage:true,
+                        isLoading:false
+                    })
+                }
+            })
     }
     render(){
         // console.log(this.props.match)
-        let {noValids,isRegWork} = this.state;
+        let {noValids,isRegWork,isLoading,hint} = this.state;
 
+        if(isLoading) {
+            hint = "Loading ..."
+        }
         let uNT = noValids.userName.length >0;
         let pT = noValids.password.length >0;
         let eT = noValids.email.length >0;
@@ -102,6 +121,7 @@ class RegPage extends Component {
                     </div>
                 </div>
                 <button className={!isRegWork?" noActive":null } onClick={this.regist} id="subb">Sign Up</button>
+                <label id="hintOfLogin">{hint}</label>
             </div>
         )
     }
