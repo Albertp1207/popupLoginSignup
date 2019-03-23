@@ -15,7 +15,7 @@ class LoginPage extends Component {
         isLoading:false,
         hint:null
 
-    }
+    } 
     changeValues = (ev)=>{
         let {name,value} = ev.target;
         let {userName,password} = this.state;

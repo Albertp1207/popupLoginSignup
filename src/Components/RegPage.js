@@ -17,9 +17,40 @@ class RegPage extends Component {
         },
         isRegWork:false,
         goUserPage:false,
-        hint:null,
-        isLoading:false
+        hint:"",
+        isLoading:false,
+        message:null,
+        errC: 0
     }
+
+    shouldComponentUpdate(nextProps, nextState){
+        if(nextState.goUserPage) {
+            if(nextState.userName === "asd") {
+                this.setState({
+                    message: nextState.userName + " is blocked" ,
+                    goUserPage: false
+                })
+                return false;
+            }
+        }
+        return true
+    }
+
+    componentDidUpdate(prevProps,prevState){
+        let {noValids} = this.state;
+        let c =0;
+        for(let key in noValids) {
+            if(noValids[key].length >0) {
+                c++
+            }
+        }
+        if(c !== prevState.errC) {
+            this.setState({
+                errC:c
+            })
+        }
+    }
+
 
     changeValues = (ev)=>{
         let {name,value} = ev.target;
@@ -27,10 +58,11 @@ class RegPage extends Component {
         let params = {fullName,email,userName,password}
         let isRegWork = true;
         let noValids = {...this.state.noValids};
+        console.log(ev.target.value)
         params[name] = value
         if(name === "email") {
             if(!emailRegex.test(value)) {
-                console.log(name)
+                // console.log(name)
                 noValids.email = "Invalid Email !!!"
             } else {
                 noValids.email=""
@@ -41,7 +73,7 @@ class RegPage extends Component {
         } else if(name !== "email") {
             noValids[name] = ""
         }
-        console.log(noValids)
+        // console.log(noValids)
 
         Object.values(noValids).forEach(el=>{
             if(el.length > 0) {
@@ -54,7 +86,7 @@ class RegPage extends Component {
                 isRegWork = false;
             }
         })
-
+ 
         this.setState({
             [name]:value,
             noValids,
@@ -85,10 +117,16 @@ class RegPage extends Component {
     }
     render(){
         // console.log(this.props.match)
-        let {noValids,isRegWork,isLoading,hint} = this.state;
+        let {noValids,isRegWork,isLoading,hint,message,errC} = this.state;
 
         if(isLoading) {
             hint = "Loading ..."
+        }
+        if(message) {
+            hint = message
+        }
+        if(errC) {
+            hint = hint += " count of erros "+ errC;
         }
         let uNT = noValids.userName.length >0;
         let pT = noValids.password.length >0;
@@ -105,19 +143,19 @@ class RegPage extends Component {
                 <div className="mainsilo">
                     <div className={fT> 0 ? "errorRow silorow":"silorow"}>
                         <label>Full Name</label>
-                        <input onChange={this.changeValues} placeholder={noValids.fullName} name= "fullName" type="text" />
+                        <input onBlur={this.changeValues} placeholder={noValids.fullName} name= "fullName" type="text" />
                     </div>
                     <div className={eT> 0 ? "errorRow silorow":"silorow"}>
                         <label>Email</label>
-                        <input onChange={this.changeValues} placeholder={noValids.email} name="email" type="text" />
+                        <input onBlur={this.changeValues} placeholder={noValids.email} name="email" type="text" />
                     </div>
                     <div className={uNT> 0 ? "errorRow silorow":"silorow"}>
                         <label>User Name</label>
-                        <input onChange={this.changeValues} placeholder={noValids.userName} name="userName" type="text" />
+                        <input onBlur={this.changeValues} placeholder={noValids.userName} name="userName" type="text" />
                     </div>
                     <div className={pT> 0 ? "errorRow silorow":"silorow"}>
                         <label>Password</label>
-                        <input onChange={this.changeValues} placeholder={noValids.password} name="password" type="password" />
+                        <input onBlur={this.changeValues} placeholder={noValids.password} name="password" type="password" />
                     </div>
                 </div>
                 <button className={!isRegWork?" noActive":null } onClick={this.regist} id="subb">Sign Up</button>
